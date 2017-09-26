@@ -1,0 +1,37 @@
+version: "3.2"
+services:
+  # node 1
+  centos7:
+    build:
+      context: ./nodes/centos7
+      dockerfile: Dockerfile
+    image: ansible-centos7
+    container_name: ansible-centos7
+    hostname: centos7
+    privileged: true
+    volumes: 
+      - ./ssh/ansible_rsa.pub:/root/.ssh/authorized_keys
+  # node 2
+  ubuntu16:
+    build:
+      context: ./nodes/ubuntu16
+      dockerfile: Dockerfile
+    image: ansible-ubuntu16
+    container_name: ansible-ubuntu16
+    hostname: ubuntu16
+    privileged: true
+    volumes: 
+      - ./ssh/ansible_rsa.pub:/root/.ssh/authorized_keys
+  # ansible実行環境
+  myansible:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: myansible
+    container_name: myansible
+    hostname: myansible
+    links:
+      - centos7:centos7
+      - ubuntu16:ubuntu16
+    volumes:
+      - ./playbooks:/playbooks
