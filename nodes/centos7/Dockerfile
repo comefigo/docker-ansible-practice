@@ -1,9 +1,8 @@
-FROM centos:centos7
+FROM centos:7
 
 # install ssh server
 RUN yum update -y \
-    && yum clean all
-RUN yum install -y openssh-server sudo \
+    && yum install -y openssh-server sudo \
     && yum clean all
 
 # start ssh service
@@ -11,7 +10,6 @@ RUN systemctl enable sshd
 
 # Setup sshd
 RUN sed -ri 's/^#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config
-RUN sed -ri 's/^#RSAAuthentication yes/RSAAuthentication yes/' /etc/ssh/sshd_config
 RUN sed -ri 's/^#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 
 # update pam

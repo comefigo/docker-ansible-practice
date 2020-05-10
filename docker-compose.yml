@@ -1,4 +1,4 @@
-version: "3.2"
+version: "3.7"
 services:
   # node 1
   centos7:
@@ -12,16 +12,15 @@ services:
     volumes:
       - ./ssh/ansible_rsa.pub:/root/.ssh/authorized_keys
   # node 2
-  ubuntu16:
+  ubuntu20:
     build:
-      context: ./nodes/ubuntu16
+      context: ./nodes/ubuntu20
       dockerfile: Dockerfile
-    image: ansible-ubuntu16
-    container_name: ansible-ubuntu16
-    hostname: ubuntu16
+    image: ansible-ubuntu20
+    container_name: ansible-ubuntu20
+    hostname: ubuntu20
     privileged: true
-    volumes:
-      - ./ssh/ansible_rsa.pub:/root/.ssh/authorized_keys
+    working_dir: /home/work_user
   # ansible実行環境
   myansible:
     build:
@@ -31,9 +30,6 @@ services:
     container_name: myansible
     hostname: myansible
     tty: true
-    links:
-      - centos7:centos7
-      - ubuntu16:ubuntu16
     volumes:
-      - ./playbooks:/playbooks
-    working_dir: /playbooks
+      - ./playbooks:/myansible
+    working_dir: /myansible
