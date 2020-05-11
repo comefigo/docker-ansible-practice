@@ -29,12 +29,12 @@ COPY ./ansible_rsa.pub /root/.ssh/authorized_keys
 COPY ./ansible_rsa.pub /home/$WORKUSER/.ssh/authorized_keys
 
 # Set authorized_keys permission
-RUN chown root:root /root/.ssh/authorized_keys \
-    && chown $WORKUSER:$WORKUSER /home/$WORKUSER/.ssh/authorized_keys \
-    && chmod 700 /root/.ssh \
-    && chmod 700 /home/$WORKUSER/.ssh \
-    && chmod 600 /root/.ssh/* \
-    && chmod 600 /home/$WORKUSER/.ssh/* \
+RUN chown root:root -R /root/.ssh \
+    && chown $WORKUSER:$WORKUSER -R /home/$WORKUSER/.ssh \
+    && chmod 500 /root/.ssh \
+    && chmod 500 /home/$WORKUSER/.ssh \
+    && chmod 400 /root/.ssh/* \
+    && chmod 400 /home/$WORKUSER/.ssh/* \
     && mkdir /var/run/sshd \
     # Set allow root login
     && sed -ri 's/^#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config \

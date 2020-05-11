@@ -8,9 +8,6 @@ services:
     image: ansible-centos7
     container_name: ansible-centos7
     hostname: centos7
-    privileged: true
-    volumes:
-      - ./ssh/ansible_rsa.pub:/root/.ssh/authorized_keys
   # node 2
   ubuntu20:
     build:
@@ -19,7 +16,6 @@ services:
     image: ansible-ubuntu20
     container_name: ansible-ubuntu20
     hostname: ubuntu20
-    privileged: true
     working_dir: /home/work_user
   # ansible実行環境
   myansible:
